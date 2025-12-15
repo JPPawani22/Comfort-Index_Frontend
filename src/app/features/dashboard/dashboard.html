@@ -1,0 +1,51 @@
+<app-header></app-header>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-white mb-2">
+      Weather Dashboard
+    </h1>
+    <p class="text-white/80">
+      Track comfort index across multiple cities
+    </p>
+  </div>
+
+  <div class="mb-6">
+    <app-city-selector 
+      (citySelected)="onCitySelected($event)">
+    </app-city-selector>
+  </div>
+
+  <div class="mb-4 flex justify-between items-center">
+    <h2 class="text-xl font-semibold text-white">
+      Selected Cities ({{ selectedCities.length }})
+    </h2>
+    <button 
+      (click)="refreshWeather()" 
+      class="btn-primary"
+      [disabled]="loading">
+      <span *ngIf="! loading">Refresh</span>
+      <span *ngIf="loading">Loading...</span>
+    </button>
+  </div>
+
+  <div *ngIf="selectedCities.length === 0" class="card text-center py-12">
+    <svg class="w-24 h-24 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6. 5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path>
+    </svg>
+    <h3 class="text-xl font-semibold text-gray-700 mb-2">
+      No cities selected
+    </h3>
+    <p class="text-gray-500">
+      Start by searching and selecting cities above
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <app-weather-card
+      *ngFor="let weather of weatherData"
+      [weather]="weather"
+      (remove)="onCityRemoved($event)">
+    </app-weather-card>
+  </div>
+</div>
